@@ -1,6 +1,7 @@
 import React from "react";
 import { workExperience } from "@/app/data";
 import { Timeline } from "../ui/TimeLine"; 
+import Image from "next/image";
 
 const Experience = () => {
   // Transform workExperience to match TimelineEntry format
@@ -9,9 +10,11 @@ const Experience = () => {
     content: (
       <div className="flex items-center">
         {exp.thumbnail ? (
-          <img
+          <Image
             src={exp.thumbnail}
             alt={exp.title}
+            width={300}
+            height={200}
             className="w-16 h-16 rounded-full mr-4" // Style as needed
           />
         ) : (

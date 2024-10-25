@@ -3,10 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
-export interface TextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
-
-const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+const TextArea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
   ({ className, ...props }, ref) => {
     const radius = 200; 
     const [visible, setVisible] = React.useState(false);
@@ -14,7 +11,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
-    function handleMouseMove({ currentTarget, clientX, clientY }: any) {
+    function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+      const { currentTarget, clientX, clientY } = event;
       const { left, top } = currentTarget.getBoundingClientRect();
 
       mouseX.set(clientX - left);
@@ -55,6 +53,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
   }
 );
+
 TextArea.displayName = "TextArea";
 
 export default TextArea;

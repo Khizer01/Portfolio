@@ -31,14 +31,14 @@ export default function RecentProject() {
                 >
                   <Image src="/bg.png" 
                   width={390}
-                  height={450} alt="bgimg" />
+                  height={500} alt="bgimg" />
                 </div>
                 <Image
                   src={item.img}
                   width={400}
-                  height={550}
+                  height={670}
                   alt="cover"
-                  className="z-10 absolute bottom-0"
+                  className="z-10 absolute bottom-0 rounded-3xl"
                 />
               </div>
 
