@@ -29,10 +29,14 @@ export default function RecentProject() {
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "#13162D" }}
                 >
-                  <Image src="/bg.png" alt="bgimg" />
+                  <Image src="/bg.png" 
+                  width={390}
+                  height={450} alt="bgimg" />
                 </div>
                 <Image
                   src={item.img}
+                  width={400}
+                  height={550}
                   alt="cover"
                   className="z-10 absolute bottom-0"
                 />
@@ -62,7 +66,7 @@ export default function RecentProject() {
                         transform: `translateX(-${5 * index + 2}px)`,
                       }}
                     >
-                      <Image src={icon} alt="icon5" className="p-2" />
+                      <Image src={icon} alt="icon5" width={200} height={200} className="p-2" />
                     </div>
                   ))}
                 </div>

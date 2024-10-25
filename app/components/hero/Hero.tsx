@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
                 heroSection.removeEventListener('mousemove', handleMouseMove);
             }
         };
-    }, []);
+    }, [beamId]);
 
     return (
         <div id="home" className="pb-20 pt-36 relative">
