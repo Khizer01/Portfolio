@@ -16,15 +16,32 @@ const ContactForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateEmail = async (email: string) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
     setIsSubmitting(true);
 
-    // Simple validation
+    // validation
     if (!formData.name || !formData.email || !formData.message) {
       setError('All fields are required.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setError('Please Enter a valid Email Address');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (formData.name.length < 3) {
+      setError('Please Enter a valid Name');
       setIsSubmitting(false);
       return;
     }
@@ -43,16 +60,16 @@ const ContactForm = () => {
         setSuccessMessage('Message sent successfully!');
         setFormData({ name: '', email: '', message: '' });
       } else {
-        setError('Failed to send message. Please check if email is correct.');
+        setError(result.error);
       }
     } catch (err) {
       setError('Failed to send message.');
-      setTimeout(() => setError(''), 4000); 
+      setTimeout(() => setError(''), 4000);
       console.log("Error occured", err);
-      
+
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSuccessMessage(''), 4000); 
+      setTimeout(() => setSuccessMessage(''), 4000);
     }
   };
 
@@ -67,15 +84,15 @@ const ContactForm = () => {
       <form className="py-5 px-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-4 mb-4">
           <Label htmlFor="name">Full Name</Label>
-          <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Tyler" type="text" required />
+          <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" type="text" required />
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" name="email" value={formData.email} onChange={handleChange} placeholder="projectmayhem@fc.com" type="email" required />
+          <Input id="email" name="email" value={formData.email} onChange={handleChange} placeholder="example@email.com" type="email" required />
           <Label htmlFor="message">Message</Label>
           <TextArea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Any message for me..?" required />
         </div>
         <div className="relative group">
           <button
-            className="bg-[#000319] relative cursor-pointer w-full text-white rounded-[10px] h-10 font-medium 
+            className="bg-[#000319] relative cursor-pointer disabled:cursor-wait w-full text-white rounded-[10px] h-10 font-medium 
               shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] 
               group-hover:opacity-100"
             type="submit"

@@ -14,11 +14,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Handle POST requests
 export async function POST(req: NextRequest) {
   try {
     const { name, email, message } = await req.json();
 
+    try {
+      const res = await fetch(`http://api.zerobounce.net/v2/validate?api_key=${process.env.ZERO_BOUNCE}&email=${email}&ip_address=`);
+      const data = await res.json();
+      
+      if (data.status !== 'valid') {
+        return NextResponse.json({ success: false, error: 'Enter a valid email address' }, { status: 404 });
+      }
+    } catch (error) {
+      return NextResponse.json({ success: false, error: 'Error validating email:' + error }, { status: 500 });
+    }
     // Read the HTML template
     const templatePath = path.join(process.cwd(), 'app', 'Email-Temp', 'index.html');
     let htmlTemplate = fs.readFileSync(templatePath, 'utf-8');
